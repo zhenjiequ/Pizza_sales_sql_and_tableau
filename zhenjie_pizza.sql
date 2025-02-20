@@ -43,31 +43,11 @@ FROM pizza_sales
 GROUP BY pizza_category
 ORDER BY PCT DESC;
 
---% of Sales by Pizza Category by month
-
-SELECT pizza_category,
-       CAST(SUM(total_price) AS DECIMAL(10,2)) AS total_revenue,
-	   CAST((SUM(total_price) / (SELECT SUM(total_price) FROM pizza_sales WHERE MONTH(order_date) = 1)) * 100 AS DECIMAL(10,2)) AS PCT
-FROM pizza_sales
-WHERE MONTH(order_date) = 1
-GROUP BY pizza_category
-ORDER BY PCT DESC;
-
 --E.% of Sales by Pizza Size
 SELECT pizza_size,
        CAST(SUM(total_price) AS DECIMAL(10,2)) AS total_revenue,
 	   CAST((SUM(total_price) / (SELECT SUM(total_price) FROM pizza_sales)) * 100 AS DECIMAL(10,2)) AS PCT
 FROM pizza_sales
-GROUP BY pizza_size
-ORDER BY PCT DESC;
-
---% of Sales by Pizza Size by quarter
-
-SELECT pizza_size,
-       CAST(SUM(total_price) AS DECIMAL(10,2)) AS total_revenue,
-	   CAST((SUM(total_price) / (SELECT SUM(total_price) FROM pizza_sales)) * 100 AS DECIMAL(10,2)) AS PCT
-FROM pizza_sales
-WHERE DATEPART(quarter, order_date) = 1
 GROUP BY pizza_size
 ORDER BY PCT DESC;
 
